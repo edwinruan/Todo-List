@@ -7,6 +7,7 @@ target 'simpleTodoList' do
 
   # Pods for simpleTodoList
   pod 'SQLite.swift', '~> 0.11.5'
+  pod 'ObjectMapper', '= 3.3.0'
 
   target 'simpleTodoListTests' do
     inherit! :search_paths
