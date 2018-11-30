@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TodoListVC.swift
 //  simpleTodoList
 //
 //  Created by Rush01 on 11/29/18.
@@ -9,10 +9,17 @@
 import UIKit
 import SQLite
 
-class ViewController: UIViewController {
+class TodoListVC: UIViewController {
+    
+    @IBOutlet var tableView: UITableView!
+    
+    var todoItems = [TodoDataModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.tableFooterView = UIView()
         let dataStore = SQLiteDBManager.sharedInstance
         do {
             try dataStore.createTables()
@@ -32,6 +39,8 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    
 
     func setData() {
         do {
@@ -39,20 +48,20 @@ class ViewController: UIViewController {
                 item: TodoObject (
                     id: 1,
                     name: "TODO 1 ",
-                    date: "Jul 12, 2017"))
+                    date: 1_543_594_218_145))
 
             
             let todoId2 = try TodoDataHelper.insert(
                 item: TodoObject (
                     id: 2,
                     name: "TODO 2 ",
-                    date: "Jul 20, 2017"))
+                    date: 1_543_594_218_045))
             
             let todoId3 = try TodoDataHelper.insert(
                 item: TodoObject (
                     id: 3,
                     name: "TODO 3 ",
-                    date: "Jul 20, 2017"))
+                    date: 1_543_594_218_002))
         } catch _{}
     }
     
@@ -70,13 +79,43 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController {
+extension TodoListVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return todoItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "TodoListTableCell", for: indexPath) as? TodoListTableCell {
+            cell.configure(todoItems(indexPath.row))
+            return cell
+        }
+        return UITableViewCell()
+    }
+}
+
+extension TodoListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+    }
+}
+
+extension TodoListVC {
     func findAll() {
         do {
             if let todos = try TodoDataHelper.findAll() {
+                todoItems.removeAll()
                 for item in todos {
-                    print(item)
+                    todoItems.append(TodoDataModel(todoObject: item))
                 }
+                tableView.reloadData()
             }
         } catch {
             if let error = error as? DataAccessError {

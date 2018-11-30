@@ -1,5 +1,5 @@
 //
-//  TodoHelper.swift
+//  TodoDataHelper.swift
 //  simpleTodoList
 //
 //  Created by Rush01 on 11/29/18.
@@ -23,7 +23,7 @@ class TodoDataHelper: DataHelperProtocol {
     static let table = Table(TABLE_NAME)
     static let id = Expression<Int64>("id")
     static let name = Expression<String>("name")
-    static let date = Expression<String>("date")
+    static let date = Expression<Int64>("date")
 
     
     typealias T = TodoObject
@@ -62,7 +62,28 @@ class TodoDataHelper: DataHelperProtocol {
             }
         }
         throw DataAccessError.nil_In_Data
-        
+    }
+    
+    static func update(item: T) throws -> Int64 {
+        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+            throw DataAccessError.datastore_Connection_Error
+        }
+        if let todoid = item.id {
+            let query = table.filter(todoid == id)
+            if let itemName = item.name, let itemDate = item.date {
+                let update = query.update(name <- itemName, date <- itemDate)
+                do {
+                    let rowId = try DB.run(update)
+                    guard rowId > 0 else {
+                        throw DataAccessError.update_Error
+                    }
+                    return Int64(rowId)
+                } catch _ {
+                    throw DataAccessError.update_Error
+                }
+            }
+        }
+        throw DataAccessError.nil_In_Data
     }
     
     static func delete (item: T) throws -> Void {
@@ -93,7 +114,6 @@ class TodoDataHelper: DataHelperProtocol {
         }
         
         return nil
-        
     }
     
     static func findAll() throws -> [T]? {
@@ -101,7 +121,7 @@ class TodoDataHelper: DataHelperProtocol {
             throw DataAccessError.datastore_Connection_Error
         }
         var retArray = [T]()
-        let items = try DB.prepare(table)
+        let items = try DB.prepare(table.order(date.desc))
         for item in items {
             retArray.append(TodoObject(id: item[id] , name: item[name], date: item[date]))
         }

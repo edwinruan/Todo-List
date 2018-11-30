@@ -9,16 +9,17 @@
 import UIKit
 
 class TodoListTableCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel!
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    }
+    
+    func configure(_ todoObject: TodoDataModel) {
+       titleLabel.text = todoObject.name
+//       dateLabel.text =
     }
 
 }
