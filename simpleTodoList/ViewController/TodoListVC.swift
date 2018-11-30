@@ -9,62 +9,58 @@
 import UIKit
 import SQLite
 
+
+/// TodoListVC represents the todo list view controller
 class TodoListVC: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var emptyView: UIView!
     
     var todoItems = [TodoDataModel]()
+    let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.estimatedRowHeight = 80
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.tableFooterView = UIView()
+        configureTableView()
+        configureNavigationBar()
+        
         let dataStore = SQLiteDBManager.sharedInstance
         do {
             try dataStore.createTables()
-//            setData()
         } catch _ {
             print("Error")
         }
-//        let object = TodoObject(id: 6, name: "TODO 5 ", date: "Jul 22, 2017")
-//        updateItem(object: object)
-//        insertItem(object: object)
-//        deleteItem(object: object)
-        findAll()
-//       findWithId(todoId: 1)
-        
-        print("Finish")
-        
-        
-        // Do any additional setup after loading the view, typically from a nib.
+        retrieveAllRecords()
     }
     
-    
-
-    func setData() {
-        do {
-            let todoId1 = try TodoDataHelper.insert(
-                item: TodoObject (
-                    id: 1,
-                    name: "TODO 1 ",
-                    date: 1_543_594_218_145))
-
-            
-            let todoId2 = try TodoDataHelper.insert(
-                item: TodoObject (
-                    id: 2,
-                    name: "TODO 2 ",
-                    date: 1_543_594_218_045))
-            
-            let todoId3 = try TodoDataHelper.insert(
-                item: TodoObject (
-                    id: 3,
-                    name: "TODO 3 ",
-                    date: 1_543_594_218_002))
-        } catch _{}
+    func configureNavigationBar() {
+        navigationItem.title = "Todo List"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addTodoItem))
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: nil, style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.title = ""
     }
     
+    func configureTableView() {
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.tableFooterView = UIView()
+        refreshControl.addTarget(self, action: #selector(TodoListVC.refreshControlAction), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+    }
+    
+    @objc func refreshControlAction() {
+        refreshControl.beginRefreshing()
+        retrieveAllRecords()
+    }
+    
+    @objc func addTodoItem() {
+        let todoDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "TodoDetailVC") as! TodoDetailVC
+        todoDetailVC.delegate = self
+        todoDetailVC.viewmode = .add
+        let navi = UINavigationController(rootViewController: todoDetailVC)
+        self.present(navi, animated: true, completion: nil)
+    }
     
     func showAlert(_ message: String, completionBlock: (() -> Void)? = nil) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertController.Style.alert)
@@ -76,8 +72,9 @@ class TodoListVC: UIViewController {
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
     }
-
 }
+
+// - MARK: - UITableView Data Source
 
 extension TodoListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,16 +83,23 @@ extension TodoListVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TodoListTableCell", for: indexPath) as? TodoListTableCell {
-            cell.configure(todoItems(indexPath.row))
+            cell.configure(todoItems[indexPath.row])
             return cell
         }
         return UITableViewCell()
     }
 }
 
+// - MARK: - UITableView Delegate
+
 extension TodoListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        self.tableView.deselectRow(at: indexPath, animated: true)
+         let todoDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "TodoDetailVC") as! TodoDetailVC
+        todoDetailVC.delegate = self
+        todoDetailVC.viewmode = .update
+        todoDetailVC.todoItem = todoItems[indexPath.row]
+        self.navigationController?.pushViewController(todoDetailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -103,19 +107,37 @@ extension TodoListVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
+        if editingStyle == .delete {
+            self.deleteItem(object: self.todoItems[indexPath.row].convertTodoObject(), indexPath: indexPath)
+        }
     }
 }
 
+// - MARK: - TodoDetailVC Delegate
+
+extension TodoListVC: TodoDetailVCDelegate {
+    func todoDetailDidUpdate() {
+        retrieveAllRecords()
+    }
+}
+
+// Mark: - DB update methods
+
 extension TodoListVC {
-    func findAll() {
+    func retrieveAllRecords() {
         do {
             if let todos = try TodoDataHelper.findAll() {
                 todoItems.removeAll()
                 for item in todos {
                     todoItems.append(TodoDataModel(todoObject: item))
                 }
+                if todoItems.isEmpty {
+                    emptyView.isHidden = false
+                } else {
+                    emptyView.isHidden = true
+                }
                 tableView.reloadData()
+                refreshControl.endRefreshing()
             }
         } catch {
             if let error = error as? DataAccessError {
@@ -158,9 +180,16 @@ extension TodoListVC {
         }
     }
     
-    func deleteItem(object: TodoObject) {
+    func deleteItem(object: TodoObject, indexPath: IndexPath) {
         do {
             try TodoDataHelper.delete(item: object)
+            self.todoItems.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            if todoItems.isEmpty {
+                emptyView.isHidden = false
+            } else {
+                emptyView.isHidden = true
+            }
         } catch {
             if let error = error as? DataAccessError {
                 showAlert(error.getInternalMessage())

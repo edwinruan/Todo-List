@@ -8,18 +8,24 @@
 
 import UIKit
 
+/// TodoListTableCell represents the todo list view table cell.
 class TodoListTableCell: UITableViewCell {
     
+    /// The title label displays title field of a todo item
     @IBOutlet var titleLabel: UILabel!
+    
+    /// The date label displays created date and time of a todo item
     @IBOutlet var dateLabel: UILabel!
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     func configure(_ todoObject: TodoDataModel) {
-       titleLabel.text = todoObject.name
-//       dateLabel.text =
+        titleLabel.text = todoObject.name
+        dateLabel.text = ""
+        if let dateInt = todoObject.date {
+            let dateNum = NSNumber(value: dateInt)
+            if let dateString = GlobalDateFormatter.stringForDateFormat(dateNum, format: DateFormat.MonthDayYearWithAtTime) {
+                dateLabel.text = "Created " + dateString
+            }
+        }
     }
 
 }

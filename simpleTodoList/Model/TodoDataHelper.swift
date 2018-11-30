@@ -17,17 +17,23 @@ protocol DataHelperProtocol {
     static func findAll() throws -> [T]?
 }
 
-class TodoDataHelper: DataHelperProtocol {
-    static let TABLE_NAME = "Todo"
-    
-    static let table = Table(TABLE_NAME)
-    static let id = Expression<Int64>("id")
-    static let name = Expression<String>("name")
-    static let date = Expression<Int64>("date")
+/// Class TodoDataHelper supports DB functionality, such as create a table, insert an item, delete an item, select all items.
 
+class TodoDataHelper: DataHelperProtocol {
+    /// Table name
+    static let TABLE_NAME = "Todo"
+    /// table instance
+    static let table = Table(TABLE_NAME)
+    /// The id column, primary key
+    static let id = Expression<Int64>("id")
+    /// The title column
+    static let name = Expression<String>("name")
+    /// The date column
+    static let date = Expression<Int64>("date")
     
     typealias T = TodoObject
     
+    /// insert a table
     static func createTable() throws {
         guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
@@ -45,6 +51,7 @@ class TodoDataHelper: DataHelperProtocol {
         
     }
     
+    /// insert an item
     static func insert(item: T) throws -> Int64 {
         guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
@@ -64,6 +71,7 @@ class TodoDataHelper: DataHelperProtocol {
         throw DataAccessError.nil_In_Data
     }
     
+    /// update an item
     static func update(item: T) throws -> Int64 {
         guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
@@ -86,7 +94,8 @@ class TodoDataHelper: DataHelperProtocol {
         throw DataAccessError.nil_In_Data
     }
     
-    static func delete (item: T) throws -> Void {
+    /// delete an item
+    static func delete(item: T) throws -> Void {
         guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
@@ -103,6 +112,7 @@ class TodoDataHelper: DataHelperProtocol {
         }
     }
     
+    /// retrieve an item with id
     static func find(todoid: Int64) throws -> T? {
         guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
@@ -116,6 +126,7 @@ class TodoDataHelper: DataHelperProtocol {
         return nil
     }
     
+    /// retrieve all items in the table
     static func findAll() throws -> [T]? {
         guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error

@@ -10,6 +10,7 @@ import UIKit
 import SQLite
 
 
+// Data base access error type
 enum DataAccessError: Error {
     case datastore_Connection_Error
     case insert_Error
@@ -30,10 +31,15 @@ enum DataAccessError: Error {
     }
 }
 
+/// This class represents the Data Base (DB) manager class to create a DB instance and start DB connection.
 class SQLiteDBManager {
+     /// DB singleton
     static let sharedInstance = SQLiteDBManager()
+    /// DB connection
     let BBDB: Connection?
     
+    /* private initilization method, will attempt to create the database file if it does not already exist. A connection is initialized with a path to a database.
+     */
     private init() {
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
@@ -52,6 +58,7 @@ class SQLiteDBManager {
         }
     }
 
+     /// createtable method, will call createtable method in TodoDataHelper
     func createTables() throws {
         do {
             try TodoDataHelper.createTable()
