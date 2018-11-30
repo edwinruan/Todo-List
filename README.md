@@ -1,6 +1,6 @@
 # Todo-List
 
-A todo list iOS application with SQL database fpr persistent storage.
+A todo list iOS application with SQL database for persistent storage.
 
 ## Getting Started
 
