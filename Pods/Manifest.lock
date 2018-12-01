@@ -1,26 +1,22 @@
 PODS:
-  - ObjectMapper (3.3.0)
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
   - SwiftLint (0.28.2)
 
 DEPENDENCIES:
-  - ObjectMapper (= 3.3.0)
   - SQLite.swift (~> 0.11.5)
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - ObjectMapper
     - SQLite.swift
     - SwiftLint
 
 SPEC CHECKSUMS:
-  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
   SwiftLint: f1629ae733b64e9cad20052de01d1debd5b640e7
 
-PODFILE CHECKSUM: 0d23308ac1247d23364b59e582e502ea2986b9d4
+PODFILE CHECKSUM: d75142ded245fabf12172a22d81b2907dd27394c
 
 COCOAPODS: 1.5.3
