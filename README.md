@@ -12,7 +12,7 @@ These third-party functions are used:
 
 * [SQLite.swift](https://github.com/stephencelis/SQLite.swift/blob/master/Documentation/Index.md#updating-rows)
 * [SwiftLint](https://github.com/realm/SwiftLint)
-* [UITextViewPlaceholder]https://github.com/devxoul/UITextView-Placeholder
+* [UITextView Placeholder](https://github.com/devxoul/UITextView-Placeholder)
 
 ### Installing
 
