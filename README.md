@@ -12,6 +12,7 @@ These third-party functions are used:
 
 * [SQLite.swift](https://github.com/stephencelis/SQLite.swift/blob/master/Documentation/Index.md#updating-rows)
 * [SwiftLint](https://github.com/realm/SwiftLint)
+* [UITextView-Placeholder]https://github.com/devxoul/UITextView-Placeholder
 
 ### Installing
 
@@ -42,11 +43,12 @@ $ open "simpleTodoList.xcworkspace"
 
 The project is organized as detailed as below:
 
-#### Model Class and DB related:
-* SQLiteDBManager:  
-  represents the Data Base (DB) manager class to create a DB instance and start DB connection.
+####  DB management:
+* TodoDBManager:  
+  represents the Data Base (DB) manager class to create a DB instance, start DB connection and insert/delete/update, etc.
 * TodoDataHelper:  
-  supports DB functionality, such as create a table, insert an item, delete an item, select all items.
+  supports basic DB functionality, such as create a table, insert an item, delete an item, update an item and select all items.
+#### Model Class:
 * TodoDataModel: 
   represent the todo data model, includes todoObject id, name, created date.
 
@@ -59,7 +61,7 @@ The project is organized as detailed as below:
 #### Helper Class:
 * TodoAppHelper:  
   provides helper class methods in this app
-* GlobalDateFormatter:  
+* TodoDateFormatter:  
   represents custom DateFormatter class to convert among Date, millisecond epoch, and  Date String with different formats.
 
 
@@ -70,7 +72,7 @@ Create a Table:
 
        import SQLite
 
-       let dataStore = SQLiteDBManager.sharedInstance
+       let dataStore = TodoDBManager.sharedInstance
        do {
            try dataStore.createTables()
        } catch _ {
@@ -82,7 +84,7 @@ Create a Table:
 Query all items:
 ```swift
        do {
-            try TodoDataHelper.findAll()
+            try TodoDBManager.sharedInstance.findAll()
         } catch {
             if let error = error as? DataAccessError {
                 showAlert(error.getInternalMessage())
@@ -94,7 +96,7 @@ Query all items:
 Insert an item:
 ```swift
         do {
-            let index = try TodoDataHelper.insert(item: object)
+            let index = try TodoDBManager.sharedInstance.insert(item: object)
             
         } catch {
             if let error = error as? DataAccessError {
@@ -106,7 +108,7 @@ Insert an item:
 Update an item:
 ```swift
         do {
-            let index = try TodoDataHelper.update(item: object)
+            let index = try TodoDBManager.sharedInstance.update(item: object)
         } catch {
             if let error = error as? DataAccessError {
                 showAlert(error.getInternalMessage())
@@ -117,7 +119,7 @@ Update an item:
 Delete an item:
 ```swift
         do {
-            try TodoDataHelper.delete(item: object)
+            try TodoDBManager.sharedInstance.delete(item: object)
         } catch {
             if let error = error as? DataAccessError {
                 showAlert(error.getInternalMessage())
