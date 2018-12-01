@@ -8,14 +8,20 @@ A todo list iOS application with SQL database for persistent storage.
 ### Prerequisites
 
 ### Installing
-Using CocoaPods:
+
+### Using [Homebrew](http://brew.sh/):
+
+```
+brew install Todo-List
+```
+
+### Using [CocoaPods](https://cocoapods.org):
 
 Simply add the following line to your Podfile:
-```
+
+```ruby
 pod 'Todo-List'
-
 ```
-
 
 ## Deployment
 
