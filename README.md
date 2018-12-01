@@ -38,6 +38,23 @@ These commands will clone Todo-List from Github and then install all library dep
 ```sh
 $ open "simpleTodoList.xcworkspace"
 ```
+### Navigating the Project
+
+The project is organized as detailed as below:
+
+#### Model Class and DB related:
+SQLiteDBManager:  represents the Data Base (DB) manager class to create a DB instance and start DB connection.
+TodoDataHelper:  supports DB functionality, such as create a table, insert an item, delete an item, select all items.
+TodoDataModel: represent the todo data model, includes todoObject id, name, created date.
+
+#### ViewController:
+TodoListVC: the todo list view controller and displays list of todo items.
+TodoDetailVC: represents the todo detail view controller and handles add/update a todo item
+
+#### Helper Class:
+TodoAppHelper: provides helper class methods in this app
+GlobalDateFormatter: represents custom DateFormatter class to convert among Date, millisecond epoch, and  Date String with different formats.
+
 
 ### DB related usage:
 Create a Table:
