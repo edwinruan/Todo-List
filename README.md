@@ -29,11 +29,7 @@ Simply add the following line to your Podfile:
 pod 'Todo-List'
 ```
 
-### Usage
-
-
-DB related usage:
-------------------
+### DB related usage:
 Create a Table:
 
 ```swift
