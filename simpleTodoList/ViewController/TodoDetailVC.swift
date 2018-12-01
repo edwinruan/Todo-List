@@ -147,8 +147,7 @@ extension TodoDetailVC: UITextViewDelegate {
              navigationItem.rightBarButtonItem?.isEnabled = false
         }
     }
-    
-   
+
 }
 
 // - MARK: - Alert View Helper method
@@ -171,7 +170,6 @@ extension TodoDetailVC {
         }
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
-        view.endEditing(true)
         present(alertController, animated: true, completion: nil)
     }
     

@@ -8,12 +8,6 @@
 
 import UIKit
 
-/// Global Helper method in this app
-class TodoAppHelper: NSObject {
-
-}
-
-
 extension String {
     public func stringIsAllwhiteSpace() -> Bool {
         let characterSet: CharacterSet = CharacterSet.whitespacesAndNewlines

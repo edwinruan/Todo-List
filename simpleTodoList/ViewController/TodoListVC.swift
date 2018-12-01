@@ -70,6 +70,7 @@ class TodoListVC: UIViewController {
             }
         }
         alert.addAction(okAction)
+  
         present(alert, animated: true, completion: nil)
     }
 }
@@ -151,28 +152,6 @@ extension TodoListVC {
             if let item = try TodoDataHelper.find(todoid: todoId) {
                     print(item)
             }
-        } catch {
-            if let error = error as? DataAccessError {
-                showAlert(error.getInternalMessage())
-            }
-        }
-    }
-    
-    func updateItem(object: TodoObject) {
-        do {
-            let index = try TodoDataHelper.update(item: object)
-            findWithId(todoId: index)
-        } catch {
-            if let error = error as? DataAccessError {
-                showAlert(error.getInternalMessage())
-            }
-        }
-    }
-    
-    func insertItem(object: TodoObject) {
-        do {
-            let index = try TodoDataHelper.insert(item: object)
-            findWithId(todoId: index)
         } catch {
             if let error = error as? DataAccessError {
                 showAlert(error.getInternalMessage())
