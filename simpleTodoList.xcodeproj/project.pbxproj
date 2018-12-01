@@ -17,12 +17,12 @@
 		CF1860C921B0AC1100FE121E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF1860C721B0AC1100FE121E /* LaunchScreen.storyboard */; };
 		CF1860D421B0AC1100FE121E /* simpleTodoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1860D321B0AC1100FE121E /* simpleTodoListTests.swift */; };
 		CF1860DF21B0AC1100FE121E /* simpleTodoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1860DE21B0AC1100FE121E /* simpleTodoListUITests.swift */; };
-		CF84B35521B0E52E00C151B1 /* SQLiteDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B35421B0E52E00C151B1 /* SQLiteDBManager.swift */; };
+		CF84B35521B0E52E00C151B1 /* TodoDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B35421B0E52E00C151B1 /* TodoDBManager.swift */; };
 		CF84B35721B0E72900C151B1 /* TodoDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B35621B0E72900C151B1 /* TodoDataHelper.swift */; };
 		CF84B35921B0E78F00C151B1 /* TodoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B35821B0E78F00C151B1 /* TodoDataModel.swift */; };
 		CF84B35C21B19AC100C151B1 /* TodoListTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B35B21B19AC100C151B1 /* TodoListTableCell.swift */; };
 		CF84B35E21B1A3F200C151B1 /* TodoAppHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B35D21B1A3F200C151B1 /* TodoAppHelper.swift */; };
-		CF84B36121B1A6D000C151B1 /* GlobalDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B36021B1A6D000C151B1 /* GlobalDateFormatter.swift */; };
+		CF84B36121B1A6D000C151B1 /* TodoDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B36021B1A6D000C151B1 /* TodoDateFormatter.swift */; };
 		CF84B36321B1AB1C00C151B1 /* TodoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84B36221B1AB1C00C151B1 /* TodoDetailVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,12 +63,12 @@
 		CF1860DA21B0AC1100FE121E /* simpleTodoListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = simpleTodoListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1860DE21B0AC1100FE121E /* simpleTodoListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simpleTodoListUITests.swift; sourceTree = "<group>"; };
 		CF1860E021B0AC1100FE121E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CF84B35421B0E52E00C151B1 /* SQLiteDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDBManager.swift; sourceTree = "<group>"; };
+		CF84B35421B0E52E00C151B1 /* TodoDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDBManager.swift; sourceTree = "<group>"; };
 		CF84B35621B0E72900C151B1 /* TodoDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataHelper.swift; sourceTree = "<group>"; };
 		CF84B35821B0E78F00C151B1 /* TodoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataModel.swift; sourceTree = "<group>"; };
 		CF84B35B21B19AC100C151B1 /* TodoListTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListTableCell.swift; sourceTree = "<group>"; };
 		CF84B35D21B1A3F200C151B1 /* TodoAppHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppHelper.swift; sourceTree = "<group>"; };
-		CF84B36021B1A6D000C151B1 /* GlobalDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDateFormatter.swift; sourceTree = "<group>"; };
+		CF84B36021B1A6D000C151B1 /* TodoDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDateFormatter.swift; sourceTree = "<group>"; };
 		CF84B36221B1AB1C00C151B1 /* TodoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailVC.swift; sourceTree = "<group>"; };
 		DB629D75B31B871F35369C4F /* Pods-simpleTodoListTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-simpleTodoListTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-simpleTodoListTests/Pods-simpleTodoListTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E95DBBD791A4DE27240AF5C7 /* Pods_simpleTodoListUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_simpleTodoListUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,7 +202,6 @@
 		CF84B35321B0E4F400C151B1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CF84B35421B0E52E00C151B1 /* SQLiteDBManager.swift */,
 				CF84B35621B0E72900C151B1 /* TodoDataHelper.swift */,
 				CF84B35821B0E78F00C151B1 /* TodoDataModel.swift */,
 			);
@@ -220,8 +219,9 @@
 		CF84B35F21B1A69E00C151B1 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				CF84B36021B1A6D000C151B1 /* GlobalDateFormatter.swift */,
+				CF84B36021B1A6D000C151B1 /* TodoDateFormatter.swift */,
 				CF84B35D21B1A3F200C151B1 /* TodoAppHelper.swift */,
+				CF84B35421B0E52E00C151B1 /* TodoDBManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -388,12 +388,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-simpleTodoList/Pods-simpleTodoList-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,10 +458,10 @@
 				CF84B35921B0E78F00C151B1 /* TodoDataModel.swift in Sources */,
 				CF84B35C21B19AC100C151B1 /* TodoListTableCell.swift in Sources */,
 				CF84B35E21B1A3F200C151B1 /* TodoAppHelper.swift in Sources */,
-				CF84B35521B0E52E00C151B1 /* SQLiteDBManager.swift in Sources */,
+				CF84B35521B0E52E00C151B1 /* TodoDBManager.swift in Sources */,
 				CF1860BF21B0AC0F00FE121E /* AppDelegate.swift in Sources */,
 				CF84B35721B0E72900C151B1 /* TodoDataHelper.swift in Sources */,
-				CF84B36121B1A6D000C151B1 /* GlobalDateFormatter.swift in Sources */,
+				CF84B36121B1A6D000C151B1 /* TodoDateFormatter.swift in Sources */,
 				CF84B36321B1AB1C00C151B1 /* TodoDetailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

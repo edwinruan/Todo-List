@@ -22,7 +22,7 @@ class TodoListTableCell: UITableViewCell {
         dateLabel.text = ""
         if let dateInt = todoObject.date {
             let dateNum = NSNumber(value: dateInt)
-            if let dateString = GlobalDateFormatter.stringForDateFormat(dateNum, format: DateFormat.MonthDayYearWithAtTime) {
+            if let dateString = TodoDateFormatter.stringForDateFormat(dateNum, format: DateFormat.MonthDayYearWithAtTime) {
                 dateLabel.text = "Created " + dateString
             }
         }

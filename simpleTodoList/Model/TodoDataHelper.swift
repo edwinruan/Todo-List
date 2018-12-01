@@ -10,14 +10,13 @@ import UIKit
 import SQLite
 
 protocol DataHelperProtocol {
-    associatedtype T
     static func createTable() throws -> Void
-    static func insert(item: T) throws -> Int64
-    static func delete(item: T) throws -> Void
-    static func findAll() throws -> [T]?
+    static func insert(item: TodoObject) throws -> Int64
+    static func delete(item: TodoObject) throws -> Void
+    static func findAll() throws -> [TodoObject]?
 }
 
-/// Class TodoDataHelper supports DB functionality, such as create a table, insert an item, delete an item, select all items.
+/// Class TodoDataHelper supports DB basic functionality, such as create a table, insert an item, delete an item, select all items. Please user TodoDBManager
 
 class TodoDataHelper: DataHelperProtocol {
     /// Table name
@@ -31,11 +30,9 @@ class TodoDataHelper: DataHelperProtocol {
     /// The date column
     static let date = Expression<Int64>("date")
     
-    typealias T = TodoObject
-    
     /// insert a table
     static func createTable() throws {
-        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+        guard let DB = TodoDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
         do {
@@ -52,8 +49,8 @@ class TodoDataHelper: DataHelperProtocol {
     }
     
     /// insert an item
-    static func insert(item: T) throws -> Int64 {
-        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+    static func insert(item: TodoObject) throws -> Int64 {
+        guard let DB = TodoDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
         if (item.name != nil && item.date != nil) {
@@ -72,8 +69,8 @@ class TodoDataHelper: DataHelperProtocol {
     }
     
     /// update an item
-    static func update(item: T) throws -> Int64 {
-        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+     static func update(item: TodoObject) throws -> Int64 {
+        guard let DB = TodoDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
         if let todoid = item.id {
@@ -95,8 +92,8 @@ class TodoDataHelper: DataHelperProtocol {
     }
     
     /// delete an item
-    static func delete(item: T) throws -> Void {
-        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+    static func delete(item: TodoObject) throws -> Void {
+        guard let DB = TodoDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
         if let todoid = item.id {
@@ -113,11 +110,11 @@ class TodoDataHelper: DataHelperProtocol {
     }
     
     /// retrieve an item with id
-    static func find(todoid: Int64) throws -> T? {
-        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+    static func find(todoId: Int64) throws -> TodoObject? {
+        guard let DB = TodoDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
-        let query = table.filter(todoid == id)
+        let query = table.filter(todoId == id)
         let items = try DB.prepare(query)
         for item in  items {
             return TodoObject(id: item[id] , name: item[name], date: item[date])
@@ -127,11 +124,11 @@ class TodoDataHelper: DataHelperProtocol {
     }
     
     /// retrieve all items in the table
-    static func findAll() throws -> [T]? {
-        guard let DB = SQLiteDBManager.sharedInstance.BBDB else {
+    static func findAll() throws -> [TodoObject]? {
+        guard let DB = TodoDBManager.sharedInstance.BBDB else {
             throw DataAccessError.datastore_Connection_Error
         }
-        var retArray = [T]()
+        var retArray = [TodoObject]()
         let items = try DB.prepare(table.order(date.desc))
         for item in items {
             retArray.append(TodoObject(id: item[id] , name: item[name], date: item[date]))

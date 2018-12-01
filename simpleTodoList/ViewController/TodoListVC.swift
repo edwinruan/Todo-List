@@ -24,7 +24,7 @@ class TodoListVC: UIViewController {
         configureTableView()
         configureNavigationBar()
         
-        let dataStore = SQLiteDBManager.sharedInstance
+        let dataStore = TodoDBManager.sharedInstance
         do {
             try dataStore.createTables()
         } catch _ {
@@ -83,6 +83,7 @@ extension TodoListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard todoItems.indices.contains(indexPath.row) else { return UITableViewCell() }
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TodoListTableCell", for: indexPath) as? TodoListTableCell {
             cell.configure(todoItems[indexPath.row])
             return cell
@@ -96,7 +97,8 @@ extension TodoListVC: UITableViewDataSource {
 extension TodoListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-         let todoDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "TodoDetailVC") as! TodoDetailVC
+        guard todoItems.indices.contains(indexPath.row) else { return }
+        let todoDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "TodoDetailVC") as! TodoDetailVC
         todoDetailVC.delegate = self
         todoDetailVC.viewmode = .update
         todoDetailVC.todoItem = todoItems[indexPath.row]
@@ -109,6 +111,7 @@ extension TodoListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            guard todoItems.indices.contains(indexPath.row) else { return }
             self.deleteItem(object: self.todoItems[indexPath.row].convertTodoObject(), indexPath: indexPath)
         }
     }
@@ -127,7 +130,7 @@ extension TodoListVC: TodoDetailVCDelegate {
 extension TodoListVC {
     func retrieveAllRecords() {
         do {
-            if let todos = try TodoDataHelper.findAll() {
+            if let todos = try TodoDBManager.sharedInstance.findAll() {
                 todoItems.removeAll()
                 for item in todos {
                     todoItems.append(TodoDataModel(todoObject: item))
@@ -147,21 +150,9 @@ extension TodoListVC {
         }
     }
     
-    func findWithId(todoId: Int64) {
-        do {
-            if let item = try TodoDataHelper.find(todoid: todoId) {
-                    print(item)
-            }
-        } catch {
-            if let error = error as? DataAccessError {
-                showAlert(error.getInternalMessage())
-            }
-        }
-    }
-    
     func deleteItem(object: TodoObject, indexPath: IndexPath) {
         do {
-            try TodoDataHelper.delete(item: object)
+            try TodoDBManager.sharedInstance.delete(item: object)
             self.todoItems.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             if todoItems.isEmpty {

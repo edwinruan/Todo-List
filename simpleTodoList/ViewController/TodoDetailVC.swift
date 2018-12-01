@@ -79,13 +79,15 @@ class TodoDetailVC: UIViewController {
         if let dateInt = todoItem.date {
             metadataLabelHeight.constant = defaultMetadataLabelHeight
             let dateNum = NSNumber(value: dateInt)
-            if let dateString = GlobalDateFormatter.stringForDateFormat(dateNum, format: DateFormat.MonthDayYearWithAtTime) {
+            if let dateString = TodoDateFormatter.stringForDateFormat(dateNum, format: DateFormat.MonthDayYearWithAtTime) {
                 metadataLabel.text = "Last updated at " + dateString
             }
         } else {
             metadataLabelHeight.constant = 0
         }
     }
+    
+    // - MARK: - NavigationBar items
     
     func closeButton() -> UIBarButtonItem {
         let closeBtn: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_close_nav", in: Bundle.main, compatibleWith: nil), style: UIBarButtonItem.Style.done, target: self, action: #selector(dismissVC))
@@ -124,7 +126,7 @@ class TodoDetailVC: UIViewController {
     // add update todo Object
     @objc func addUpdateTodoObject() {
         todoItem.name = textView.text
-        if let dateNum = GlobalDateFormatter.convertToDateInMillis(Date()) {
+        if let dateNum = TodoDateFormatter.convertToDateInMillis(Date()) {
             todoItem.date = dateNum.int64Value
         }
         
@@ -211,22 +213,9 @@ extension TodoDetailVC {
 // - MARK: - DB related method
 
 extension TodoDetailVC {
-    func findWithId(todoId: Int64) {
-        do {
-            if let item = try TodoDataHelper.find(todoid: todoId) {
-                print(item)
-            }
-        } catch {
-            if let error = error as? DataAccessError {
-                showAlert(error.getInternalMessage())
-            }
-        }
-    }
-    
     func insertItem(object: TodoObject) {
         do {
-            let index = try TodoDataHelper.insert(item: object)
-            findWithId(todoId: index)
+            _ = try TodoDBManager.sharedInstance.insert(item: object)
             if let delegate = delegate {
                 delegate.todoDetailDidUpdate()
             }
@@ -240,8 +229,7 @@ extension TodoDetailVC {
     
     func updateItem(object: TodoObject) {
         do {
-            let index = try TodoDataHelper.update(item: object)
-            findWithId(todoId: index)
+            _ = try TodoDBManager.sharedInstance.update(item: object)
             if let delegate = delegate {
                 delegate.todoDetailDidUpdate()
             }

@@ -10,12 +10,12 @@ import UIKit
 
 /// Class TodoDataModel represent the todo data model, includes id, name, create date,
 class TodoDataModel: NSObject {
-     /// The id field of todo item
-     var id: Int64?
-     /// The title of todo item
-     var name: String?
-     /// The created date of todo item
-     var date: Int64?
+    /// The id field of todo item
+    var id: Int64?
+    /// The title of todo item
+    var name: String?
+    /// The created date of todo item
+    var date: Int64?
     
     /// initalize a TodoDataModel from a TodoObject
     public init(todoObject: TodoObject) {

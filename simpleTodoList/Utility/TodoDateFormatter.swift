@@ -1,5 +1,5 @@
 //
-//  GlobalDateFormatter.swift
+//  TodoDateFormatter.swift
 //  simpleTodoList
 //
 //  Created by Rush01 on 11/30/18.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-/// Class GlobalDateFormatter represents custom DateFormatter class to convert among Date, millisecond epoch, and  Date String with different formats.
-class GlobalDateFormatter {
+/// Class TodoDateFormatter represents custom DateFormatter class to convert among Date, millisecond epoch, and  Date String with different formats.
+class TodoDateFormatter {
     class func stringForDateFormat(_ dateInMillis: NSNumber?, format: DateFormat) -> String? {
         if let dateInMillis = dateInMillis {
-            let date: Date = Date(timeIntervalSince1970: round(Double(dateInMillis) / 1_000))
+            let date: Date = Date(timeIntervalSince1970: round(Double(truncating: dateInMillis) / 1_000))
             return stringFromDate(date, format: format)
         } else {
             return nil
@@ -21,7 +21,7 @@ class GlobalDateFormatter {
     
     open class func convertToDate(_ dateInMillis: NSNumber?) -> Date? {
         if let dateInMillis = dateInMillis {
-            return Date(timeIntervalSince1970: round(Double(dateInMillis) / 1_000))
+            return Date(timeIntervalSince1970: round(Double(truncating: dateInMillis) / 1_000))
         }
         return nil
     }
@@ -47,5 +47,5 @@ public enum DateFormat: String {
     case hhmma = "hh:mm a"
     case EEEEMMMddhmma = "EEEE MMM dd, h:mm a"
     case MonthDayYearWithAtTime = "MMM dd, yyyy 'at' h:mm a"
-
+    
 }
