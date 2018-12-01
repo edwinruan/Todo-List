@@ -31,23 +31,69 @@ pod 'Todo-List'
 
 ### Usage
 
-Create a Table in Example project:
+
+DB related usage:
+------------------
+Create a Table:
 
 ```swift
 
-import SQLite
+       import SQLite
 
- let dataStore = SQLiteDBManager.sharedInstance
- do {
-     try dataStore.createTables()
- } catch _ {
-     print("Error")
- }
+       let dataStore = SQLiteDBManager.sharedInstance
+       do {
+           try dataStore.createTables()
+       } catch _ {
+           print("Error")
+       }
 
 ```
 
+Query all items:
+```swift
+       do {
+            try TodoDataHelper.findAll()
+        } catch {
+            if let error = error as? DataAccessError {
+                showAlert(error.getInternalMessage())
+            }
+        }
 
+```
 
+Insert an item:
+```swift
+        do {
+            let index = try TodoDataHelper.insert(item: object)
+            
+        } catch {
+            if let error = error as? DataAccessError {
+                showAlert(error.getInternalMessage())
+            }
+        }
+```
+
+Update an item:
+```swift
+        do {
+            let index = try TodoDataHelper.update(item: object)
+        } catch {
+            if let error = error as? DataAccessError {
+                showAlert(error.getInternalMessage())
+            }
+        }
+```
+
+Delete an item:
+```swift
+        do {
+            try TodoDataHelper.delete(item: object)
+        } catch {
+            if let error = error as? DataAccessError {
+                showAlert(error.getInternalMessage())
+            }
+        }
+```
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
