@@ -8,7 +8,13 @@ A todo list iOS application with SQL database for persistent storage.
 ### Prerequisites
 
 ### Installing
+Using CocoaPods:
 
+Simply add the following line to your Podfile:
+```
+pod 'Todo-List'
+
+```
 
 
 ## Deployment
