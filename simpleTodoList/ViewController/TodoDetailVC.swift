@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UITextView_Placeholder
 
 public enum TodoDetailVCMode: String {
     case add
@@ -15,7 +16,7 @@ public enum TodoDetailVCMode: String {
     var description: String {
         switch self {
         case .add:
-            return "Add item"
+            return "Add new item"
         case .update:
             return "Edit item"
         }
@@ -74,6 +75,7 @@ class TodoDetailVC: UIViewController {
     }
     
     func configureTextView() {
+        textView.placeholder = placeHolderDescription
         textView.text = todoItem.name
         metadataLabel.text = ""
         if let dateInt = todoItem.date {

@@ -8,6 +8,7 @@ target 'simpleTodoList' do
   # Pods for simpleTodoList
   pod 'SQLite.swift', '~> 0.11.5'
   pod 'SwiftLint'
+  pod 'UITextView+Placeholder', '= 1.2.0'
 
   target 'simpleTodoListTests' do
     inherit! :search_paths

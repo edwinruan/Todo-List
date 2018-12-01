@@ -3,20 +3,24 @@ PODS:
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
   - SwiftLint (0.28.2)
+  - "UITextView+Placeholder (1.2.0)"
 
 DEPENDENCIES:
   - SQLite.swift (~> 0.11.5)
   - SwiftLint
+  - "UITextView+Placeholder (= 1.2.0)"
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - SQLite.swift
     - SwiftLint
+    - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
   SwiftLint: f1629ae733b64e9cad20052de01d1debd5b640e7
+  "UITextView+Placeholder": 77680995fcdd07c3f52ec92fe1150874a2ac89ff
 
-PODFILE CHECKSUM: d75142ded245fabf12172a22d81b2907dd27394c
+PODFILE CHECKSUM: 45afbd65a21b07af98e61a596e95d99444705e00
 
 COCOAPODS: 1.5.3

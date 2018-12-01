@@ -18,6 +18,7 @@ class TodoListVC: UIViewController {
     
     var todoItems = [TodoDataModel]()
     let refreshControl = UIRefreshControl()
+    let defaultTitle = "Todo List"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +35,20 @@ class TodoListVC: UIViewController {
     }
     
     func configureNavigationBar() {
-        navigationItem.title = "Todo List"
+        setTitleText()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addTodoItem))
         
         navigationItem.backBarButtonItem = UIBarButtonItem(image: nil, style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.title = ""
+    }
+    
+    func setTitleText() {
+        let numberOfItem = " (" + "\(todoItems.count)" + ")"
+        if todoItems.count > 0 {
+            navigationItem.title = defaultTitle + numberOfItem
+        } else {
+            navigationItem.title = defaultTitle
+        }
     }
     
     func configureTableView() {
@@ -140,6 +150,7 @@ extension TodoListVC {
                 } else {
                     emptyView.isHidden = true
                 }
+                setTitleText()
                 tableView.reloadData()
                 refreshControl.endRefreshing()
             }
@@ -160,6 +171,7 @@ extension TodoListVC {
             } else {
                 emptyView.isHidden = true
             }
+            setTitleText()
         } catch {
             if let error = error as? DataAccessError {
                 showAlert(error.getInternalMessage())
