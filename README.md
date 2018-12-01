@@ -15,18 +15,28 @@ These third-party functions are used:
 
 ### Installing
 
-### Using [Homebrew](http://brew.sh/):
+### Building Todo-List
 
+To build Todo-List, you need a few a few standard iOS Development Tools:
+
+1. [Xcode](https://developer.apple.com/xcode/) - Apple's suite of iOS and OS X development tools. 
+2. [CocoaPods](http://cocoapods.org/) - The dependency manager for Cocoa projects.  Available by executing `$ sudo gem install cocoapods` in your terminal.
+
+**Note:** Make sure to use CocoaPods >= 1.0.0.
+
+#### Cloning & Preparing the Project
+
+Once you have installed the prerequisites, you can proceed with cloning and configuring the project by executing the following commands in your terminal:
+
+```sh
+$ git clone --recursive  https://github.com/edwinruan/Todo-List
+$ cd Todo-List
 ```
-brew install Todo-List
-```
 
-### Using [CocoaPods](https://cocoapods.org):
+These commands will clone Todo-List from Github and then install all library dependencies via CocoaPods. Once these steps have completed without error, you can open the workspace by executing:
 
-Simply add the following line to your Podfile:
-
-```ruby
-pod 'Todo-List'
+```sh
+$ open "simpleTodoList.xcworkspace"
 ```
 
 ### DB related usage:
